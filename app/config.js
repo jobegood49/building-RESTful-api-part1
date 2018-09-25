@@ -7,14 +7,16 @@ const environments = {};
 //Staging default environment
 
 environments.staging = {
-  port: 3000,
+  httpPort: 3000,
+  httpsPort: 3001,
   envName: 'staging',
 };
 
 //Staging default environment
 
 environments.production = {
-  port: 5000,
+  httpPort: 5000,
+  httpsPort: 5001,
   envName: 'production',
 };
 
@@ -28,9 +30,8 @@ let currentEnvironment =
 //Check that the current environment is one of the environment above else default to staging
 
 let environmentToExport =
-  typeof(environments[currentEnvironment]) == 'object'
+  typeof environments[currentEnvironment] == 'object'
     ? environments[currentEnvironment]
     : environments.staging;
 
-
-module.exports = environmentToExport
+module.exports = environmentToExport;
