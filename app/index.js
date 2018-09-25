@@ -3,41 +3,35 @@
 // dependencies
 
 const http = require('http');
-const https = require('https')
+const https = require('https');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
-const fs = require('fs')
+const fs = require('fs');
 
 // The server should respond to all requests with a string
 
 const httpserver = http.createServer((req, res) => {
-  unifiedServer(req,res)
+  unifiedServer(req, res);
 });
 
 const httpsServerOptions = {
   key: fs.readFileSync('./https/key.pem'),
-  cert: fs.readFileSync('./https/cert.pem')
-}
+  cert: fs.readFileSync('./https/cert.pem'),
+};
 
-const httpsserver = https.createServer(httpsServerOptions,(req, res) => {
-  unifiedServer(req,res)
+const httpsserver = https.createServer(httpsServerOptions, (req, res) => {
+  unifiedServer(req, res);
 });
 
 // Start the server, and have it listen on port 3000
 
 httpserver.listen(config.httpPort, () => {
-  console.log(
-    'the server is listening on port ' +
-      config.httpPort
-  );
+  console.log('the server is listening on port ' + config.httpPort);
 });
 
 httpsserver.listen(config.httpsPort, () => {
-  console.log(
-    'the server is listening on port ' +
-      config.httpsPort
-  );
+  console.log('the server is listening on port ' + config.httpsPort);
 });
 
 let unifiedServer = (req, res) => {
@@ -111,8 +105,8 @@ let unifiedServer = (req, res) => {
 let handlers = {};
 
 //Sample handler
-handlers.sample = (data, cb) => {
-  cb(406, { name: 'sample handler' });
+handlers.ping = (data, cb) => {
+  cb(200);
 };
 
 //Not found handler
@@ -122,5 +116,5 @@ handlers.notFound = (data, cb) => {
 
 //Define he the request router
 const router = {
-  sample: handlers.sample,
+  ping: handlers.ping,
 };
